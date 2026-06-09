@@ -1,0 +1,209 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================
+   MISSION CONTROL DESIGN SYSTEM
+   Futuristic spacecraft HUD aesthetic
+============================================ */
+
+@layer base {
+  :root {
+    /* Core space palette */
+    --background: 0 0% 4%;
+    --foreground: 195 100% 95%;
+
+    --card: 220 30% 6%;
+    --card-foreground: 195 100% 95%;
+
+    --popover: 220 30% 6%;
+    --popover-foreground: 195 100% 95%;
+
+    /* Plasma blue - primary brand */
+    --primary: 192 100% 50%;
+    --primary-foreground: 0 0% 4%;
+    --primary-glow: 192 100% 65%;
+
+    /* Engine orange - accent / CTA */
+    --secondary: 16 100% 50%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 220 20% 12%;
+    --muted-foreground: 195 20% 65%;
+
+    --accent: 192 100% 50%;
+    --accent-foreground: 0 0% 4%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 192 50% 20%;
+    --input: 220 30% 10%;
+    --ring: 192 100% 50%;
+
+    --radius: 0.25rem;
+
+    /* HUD specific */
+    --hud-grid: 192 100% 50% / 0.08;
+    --hud-glass: 220 30% 6% / 0.6;
+    --hud-glow: 192 100% 50% / 0.4;
+
+    /* Gradients */
+    --gradient-space: radial-gradient(ellipse at top, hsl(220 50% 8%) 0%, hsl(0 0% 0%) 60%);
+    --gradient-nebula: radial-gradient(ellipse at bottom right, hsl(280 60% 20% / 0.4), transparent 60%),
+                       radial-gradient(ellipse at top left, hsl(192 80% 25% / 0.3), transparent 60%);
+    --gradient-plasma: linear-gradient(135deg, hsl(192 100% 50%), hsl(210 100% 60%));
+    --gradient-engine: linear-gradient(180deg, hsl(45 100% 70%), hsl(16 100% 50%) 40%, hsl(0 100% 30%));
+
+    /* Shadows / glows */
+    --shadow-hud: 0 0 20px hsl(192 100% 50% / 0.3), inset 0 0 20px hsl(192 100% 50% / 0.05);
+    --shadow-plasma: 0 0 40px hsl(192 100% 50% / 0.6);
+    --shadow-engine: 0 0 60px hsl(16 100% 50% / 0.7);
+
+    --sidebar-background: 0 0% 4%;
+    --sidebar-foreground: 195 100% 95%;
+    --sidebar-primary: 192 100% 50%;
+    --sidebar-primary-foreground: 0 0% 4%;
+    --sidebar-accent: 220 20% 12%;
+    --sidebar-accent-foreground: 195 100% 95%;
+    --sidebar-border: 192 50% 20%;
+    --sidebar-ring: 192 100% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--gradient-space);
+    overflow-x: hidden;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    body {
+      cursor: none;
+    }
+  }
+
+  ::selection {
+    background: hsl(var(--primary) / 0.3);
+    color: hsl(var(--primary-glow));
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: hsl(var(--background)); }
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--primary) / 0.4);
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover { background: hsl(var(--primary)); }
+}
+
+@layer components {
+  .font-mono-hud {
+    font-family: 'JetBrains Mono', 'Space Mono', ui-monospace, monospace;
+    letter-spacing: 0.08em;
+  }
+
+  .font-display {
+    font-family: 'Orbitron', 'Inter', sans-serif;
+    letter-spacing: 0.05em;
+  }
+
+  /* Glass HUD panel */
+  .hud-panel {
+    background: hsl(var(--hud-glass));
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid hsl(var(--primary) / 0.3);
+    box-shadow: var(--shadow-hud);
+    position: relative;
+  }
+
+  .hud-panel::before,
+  .hud-panel::after {
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border: 1px solid hsl(var(--primary));
+  }
+  .hud-panel::before {
+    top: -1px; left: -1px;
+    border-right: none;
+    border-bottom: none;
+  }
+  .hud-panel::after {
+    bottom: -1px; right: -1px;
+    border-left: none;
+    border-top: none;
+  }
+
+  .hud-grid-bg {
+    background-image:
+      linear-gradient(hsl(var(--hud-grid)) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--hud-grid)) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  .text-glow {
+    text-shadow: 0 0 10px hsl(var(--primary) / 0.8), 0 0 20px hsl(var(--primary) / 0.4);
+  }
+
+  .text-glow-engine {
+    text-shadow: 0 0 10px hsl(var(--secondary) / 0.8), 0 0 30px hsl(var(--secondary) / 0.5);
+  }
+
+  .scanline {
+    position: relative;
+    overflow: hidden;
+  }
+  .scanline::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 0%, hsl(var(--primary) / 0.04) 50%, transparent 100%);
+    background-size: 100% 4px;
+    pointer-events: none;
+    animation: scan 8s linear infinite;
+  }
+
+  @keyframes scan {
+    0% { background-position: 0 0; }
+    100% { background-position: 0 100%; }
+  }
+
+  .blink {
+    animation: blink 1.4s steps(2) infinite;
+  }
+  @keyframes blink {
+    50% { opacity: 0.3; }
+  }
+
+  .telemetry-bar {
+    height: 2px;
+    background: linear-gradient(90deg,
+      transparent,
+      hsl(var(--primary) / 0.3) 20%,
+      hsl(var(--primary)) 50%,
+      hsl(var(--primary) / 0.3) 80%,
+      transparent);
+  }
+}
+
+@layer utilities {
+  .bg-gradient-plasma { background: var(--gradient-plasma); }
+  .bg-gradient-nebula { background: var(--gradient-nebula); }
+  .bg-gradient-space { background: var(--gradient-space); }
+  .shadow-plasma { box-shadow: var(--shadow-plasma); }
+  .shadow-engine { box-shadow: var(--shadow-engine); }
+}
