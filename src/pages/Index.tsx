@@ -4,75 +4,75 @@ import { TelemetryHUD } from "@/components/TelemetryHUD";
 import { CustomCursor } from "@/components/CustomCursor";
 import { CountdownIntro } from "@/components/CountdownIntro";
 import {
-  HeroSection,
-  AboutSection,
-  SkillsSection,
-  ProjectsSection,
-  ContactSection,
+    HeroSection,
+    AboutSection,
+    SkillsSection,
+    ProjectsSection,
+    ContactSection,
 } from "@/components/Sections";
 import { useScrollProgress } from "@/hooks/useScrollProgress";
 import { PHASES, Phase } from "@/lib/missionData";
 
 const Index = () => {
-  const [introDone, setIntroDone] = useState(false);
-  const [selectedProject, setSelectedProject] = useState<string | null>(null);
-  const progress = useScrollProgress();
+    const [introDone, setIntroDone] = useState(false);
+    const [selectedProject, setSelectedProject] = useState<string | null>(null);
+    const progress = useScrollProgress();
 
-  // Map progress -> active phase
-  const activePhase: Phase = useMemo(() => {
-    if (progress < 0.18) return "ignition";
-    if (progress < 0.38) return "ascent";
-    if (progress < 0.56) return "separation";
-    if (progress < 0.82) return "orbit";
-    return "deploy";
-  }, [progress]);
+    // Map progress -> active phase
+    const activePhase: Phase = useMemo(() => {
+        if (progress < 0.18) return "ignition";
+        if (progress < 0.38) return "ascent";
+        if (progress < 0.56) return "separation";
+        if (progress < 0.82) return "orbit";
+        return "deploy";
+    }, [progress]);
 
-  // 5 sections × 100vh; jumping to phase scrolls to that section
-  const jumpTo = (phase: Phase) => {
-    const idx = PHASES.findIndex((p) => p.id === phase);
-    const h = document.documentElement.scrollHeight - window.innerHeight;
-    const target = (idx / (PHASES.length - 1)) * h;
-    window.scrollTo({ top: target, behavior: "smooth" });
-  };
+    // 5 sections × 100vh; jumping to phase scrolls to that section
+    const jumpTo = (phase: Phase) => {
+        const idx = PHASES.findIndex((p) => p.id === phase);
+        const h = document.documentElement.scrollHeight - window.innerHeight;
+        const target = (idx / (PHASES.length - 1)) * h;
+        window.scrollTo({ top: target, behavior: "smooth" });
+    };
 
-  return (
-    <div className="relative">
-      <CustomCursor />
-      {!introDone && <CountdownIntro onDone={() => setIntroDone(true)} />}
+    return (
+        <div className="relative">
+            <CustomCursor />
+            {!introDone && <CountdownIntro onDone={() => setIntroDone(true)} />}
 
-      {/* Persistent 3D canvas */}
-      <div className="fixed inset-0 z-0 bg-gradient-nebula">
-        <Scene
-          progress={progress}
-          selectedProject={selectedProject}
-          setSelectedProject={setSelectedProject}
-        />
-      </div>
+            {/* Persistent 3D canvas */}
+            <div className="fixed inset-0 z-0 bg-gradient-nebula">
+                <Scene
+                    progress={progress}
+                    selectedProject={selectedProject}
+                    setSelectedProject={setSelectedProject}
+                />
+            </div>
 
-      {/* Scroll content (sections layered above the canvas) */}
-      <main className="relative z-10 scanline">
-        <HeroSection />
-        <AboutSection />
-        <SkillsSection />
-        <ProjectsSection selected={selectedProject} setSelected={setSelectedProject} />
-        <ContactSection />
-      </main>
+            {/* Scroll content (sections layered above the canvas) */}
+            <main className="relative z-10 scanline">
+                <div id="hero"><HeroSection /></div>
+                <div id="about"><AboutSection /></div>
+                <div id="skills"><SkillsSection /></div>
+                <div id="projects"><ProjectsSection selected={selectedProject} setSelected={setSelectedProject} /></div>
+                <div id="contact"><ContactSection /></div>
+            </main>
 
-      <TelemetryHUD progress={progress} activePhase={activePhase} onJump={jumpTo} />
+            <TelemetryHUD progress={progress} activePhase={activePhase} onJump={jumpTo} />
 
-      {/* Top corner identifier */}
-      <div className="fixed top-2 left-2 z-40 font-mono-hud text-[9px] sm:text-[10px] text-primary/70 tracking-widest pointer-events-none">
-        <div className="hud-panel px-2 py-1 sm:px-3 sm:py-1.5">
-          <span className="text-secondary blink">●</span> LIVE
+            {/* Top corner identifier */}
+            <div className="fixed top-4 left-4 z-40 font-mono-hud text-[10px] text-primary/70 tracking-widest pointer-events-none">
+                <div className="hud-panel px-3 py-1.5">
+                    <span className="text-secondary blink">●</span> LIVE · MISSION CTRL
+                </div>
+            </div>
+            <div className="fixed top-4 right-4 z-40 font-mono-hud text-[10px] text-primary/70 tracking-widest pointer-events-none">
+                <div className="hud-panel px-3 py-1.5">
+                    PHASE: <span className="text-primary text-glow">{activePhase.toUpperCase()}</span>
+                </div>
+            </div>
         </div>
-      </div>
-      <div className="fixed top-2 right-2 z-40 font-mono-hud text-[9px] sm:text-[10px] text-primary/70 tracking-widest pointer-events-none">
-        <div className="hud-panel px-2 py-1 sm:px-3 sm:py-1.5">
-          PHASE: <span className="text-primary text-glow">{activePhase.toUpperCase()}</span>
-        </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default Index;

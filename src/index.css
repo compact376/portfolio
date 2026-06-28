@@ -51,7 +51,7 @@
     /* Gradients */
     --gradient-space: radial-gradient(ellipse at top, hsl(220 50% 8%) 0%, hsl(0 0% 0%) 60%);
     --gradient-nebula: radial-gradient(ellipse at bottom right, hsl(280 60% 20% / 0.4), transparent 60%),
-                       radial-gradient(ellipse at top left, hsl(192 80% 25% / 0.3), transparent 60%);
+    radial-gradient(ellipse at top left, hsl(192 80% 25% / 0.3), transparent 60%);
     --gradient-plasma: linear-gradient(135deg, hsl(192 100% 50%), hsl(210 100% 60%));
     --gradient-engine: linear-gradient(180deg, hsl(45 100% 70%), hsl(16 100% 50%) 40%, hsl(0 100% 30%));
 
@@ -85,12 +85,7 @@
     font-family: 'Inter', system-ui, sans-serif;
     background: var(--gradient-space);
     overflow-x: hidden;
-  }
-
-  @media (hover: hover) and (pointer: fine) {
-    body {
-      cursor: none;
-    }
+    cursor: none;
   }
 
   ::selection {
@@ -150,8 +145,8 @@
 
   .hud-grid-bg {
     background-image:
-      linear-gradient(hsl(var(--hud-grid)) 1px, transparent 1px),
-      linear-gradient(90deg, hsl(var(--hud-grid)) 1px, transparent 1px);
+            linear-gradient(hsl(var(--hud-grid)) 1px, transparent 1px),
+            linear-gradient(90deg, hsl(var(--hud-grid)) 1px, transparent 1px);
     background-size: 40px 40px;
   }
 
@@ -189,14 +184,23 @@
     50% { opacity: 0.3; }
   }
 
+  .hero-float {
+    animation: hero-float 5s ease-in-out infinite alternate;
+    will-change: transform;
+  }
+  @keyframes hero-float {
+    0% { transform: translateY(-5px); }
+    100% { transform: translateY(5px); }
+  }
+
   .telemetry-bar {
     height: 2px;
     background: linear-gradient(90deg,
-      transparent,
-      hsl(var(--primary) / 0.3) 20%,
-      hsl(var(--primary)) 50%,
-      hsl(var(--primary) / 0.3) 80%,
-      transparent);
+    transparent,
+    hsl(var(--primary) / 0.3) 20%,
+    hsl(var(--primary)) 50%,
+    hsl(var(--primary) / 0.3) 80%,
+    transparent);
   }
 }
 
