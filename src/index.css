@@ -202,6 +202,332 @@
     hsl(var(--primary) / 0.3) 80%,
     transparent);
   }
+
+  .terminal-shell {
+    position: relative;
+    background:
+      linear-gradient(180deg, hsl(var(--background) / 0.72), hsl(var(--card) / 0.9)),
+      radial-gradient(circle at top, hsl(var(--primary) / 0.08), transparent 45%);
+    border: 1px solid hsl(var(--primary) / 0.28);
+    box-shadow:
+      0 0 0 1px hsl(var(--primary) / 0.08) inset,
+      0 0 35px hsl(var(--primary) / 0.12),
+      0 20px 60px hsl(0 0% 0% / 0.35);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+  }
+
+  .terminal-shell::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg, transparent 0%, hsl(var(--primary) / 0.04) 50%, transparent 100%),
+      linear-gradient(180deg, transparent 0%, hsl(var(--secondary) / 0.02) 50%, transparent 100%);
+    pointer-events: none;
+  }
+
+  .terminal-shell::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, hsl(0 0% 100% / 0.04), transparent 18%, transparent 82%, hsl(0 0% 0% / 0.08));
+    pointer-events: none;
+    mix-blend-mode: screen;
+  }
+
+  .terminal-fog {
+    background:
+      radial-gradient(circle at 20% 20%, hsl(var(--primary) / 0.05), transparent 30%),
+      radial-gradient(circle at 80% 30%, hsl(var(--secondary) / 0.04), transparent 28%),
+      radial-gradient(circle at 50% 80%, hsl(var(--primary) / 0.03), transparent 35%);
+    filter: blur(14px);
+    animation: terminal-drift 18s ease-in-out infinite alternate;
+  }
+
+  .terminal-noise {
+    opacity: 0.16;
+    background-image:
+      linear-gradient(0deg, transparent 48%, hsl(var(--primary) / 0.08) 49%, transparent 51%),
+      linear-gradient(90deg, transparent 48%, hsl(var(--secondary) / 0.04) 49%, transparent 51%),
+      radial-gradient(circle at 30% 30%, hsl(0 0% 100% / 0.05), transparent 26%),
+      radial-gradient(circle at 70% 60%, hsl(var(--primary) / 0.04), transparent 20%);
+    background-size: 22px 22px, 28px 28px, 180px 180px, 220px 220px;
+    mix-blend-mode: screen;
+    animation: terminal-noise-shift 9s steps(2) infinite;
+  }
+
+  .terminal-particles {
+    opacity: 0.9;
+    background-image:
+      radial-gradient(circle at 20% 30%, hsl(var(--primary) / 0.18) 0 1px, transparent 1.5px),
+      radial-gradient(circle at 70% 20%, hsl(var(--primary) / 0.12) 0 1px, transparent 1.5px),
+      radial-gradient(circle at 85% 65%, hsl(var(--secondary) / 0.11) 0 1px, transparent 1.5px),
+      radial-gradient(circle at 35% 80%, hsl(var(--primary) / 0.1) 0 1px, transparent 1.5px);
+    background-size: 240px 240px;
+    animation: terminal-pulse 9s ease-in-out infinite alternate, terminal-float 26s linear infinite;
+  }
+
+  .terminal-sheen {
+    background: linear-gradient(120deg, transparent 18%, hsl(var(--primary) / 0.08) 45%, transparent 60%);
+    transform: translateX(-70%);
+    animation: terminal-sheen 10s ease-in-out infinite;
+  }
+
+  .terminal-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.3rem 0.55rem;
+    border: 1px solid hsl(var(--primary) / 0.18);
+    background: hsl(var(--background) / 0.42);
+    box-shadow: inset 0 0 12px hsl(var(--primary) / 0.06);
+  }
+
+  .terminal-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 0.65rem 0.75rem;
+    border: 1px solid hsl(var(--primary) / 0.12);
+    background: linear-gradient(180deg, hsl(var(--background) / 0.38), hsl(var(--muted) / 0.3));
+    box-shadow: inset 0 0 10px hsl(var(--primary) / 0.04);
+  }
+
+  .terminal-field {
+    position: relative;
+    padding: 0.75rem;
+    border: 1px solid hsl(var(--border) / 0.7);
+    background: linear-gradient(180deg, hsl(var(--background) / 0.35), hsl(var(--input) / 0.95));
+    box-shadow: inset 0 0 12px hsl(var(--primary) / 0.04);
+    transition: border-color 220ms ease, box-shadow 220ms ease, transform 220ms ease;
+  }
+
+  .terminal-field:hover,
+  .terminal-field.is-active {
+    border-color: hsl(var(--primary) / 0.55);
+    box-shadow:
+      0 0 0 1px hsl(var(--primary) / 0.08) inset,
+      0 0 26px hsl(var(--primary) / 0.16),
+      inset 0 0 16px hsl(var(--primary) / 0.05);
+    transform: translateY(-1px);
+  }
+
+  .terminal-command-input,
+  .terminal-command-select,
+  .terminal-textarea {
+    background: transparent;
+    border-radius: 0;
+    transition: color 240ms ease, text-shadow 240ms ease, opacity 240ms ease;
+  }
+
+  .terminal-command-input::placeholder,
+  .terminal-textarea::placeholder {
+    letter-spacing: 0.08em;
+  }
+
+  .terminal-command-input:focus,
+  .terminal-command-select:focus,
+  .terminal-textarea:focus {
+    text-shadow: 0 0 10px hsl(var(--primary) / 0.18);
+  }
+
+  .terminal-command-select {
+    appearance: none;
+  }
+
+  .terminal-buffer {
+    position: relative;
+    border: 1px solid hsl(var(--border) / 0.65);
+    background:
+      linear-gradient(180deg, hsl(var(--background) / 0.35), hsl(var(--input) / 0.9)),
+      radial-gradient(circle at top, hsl(var(--primary) / 0.04), transparent 55%);
+    box-shadow: inset 0 0 16px hsl(var(--primary) / 0.04);
+    padding: 0.85rem 0.9rem;
+    overflow: hidden;
+  }
+
+  .terminal-buffer::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent, hsl(var(--primary) / 0.03), transparent);
+    animation: terminal-buffer-scan 6s linear infinite;
+    pointer-events: none;
+  }
+
+  .terminal-buffer.is-active,
+  .terminal-buffer:hover {
+    border-color: hsl(var(--primary) / 0.55);
+    box-shadow:
+      0 0 0 1px hsl(var(--primary) / 0.08) inset,
+      0 0 24px hsl(var(--primary) / 0.12),
+      inset 0 0 20px hsl(var(--primary) / 0.05);
+  }
+
+  .terminal-buffer-lines {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: 0.4rem;
+    font-family: 'JetBrains Mono', 'Space Mono', ui-monospace, monospace;
+    font-size: 0.72rem;
+    line-height: 1.55;
+    letter-spacing: 0.08em;
+  }
+
+  .terminal-buffer-rule {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, hsl(var(--primary) / 0.02), transparent);
+    pointer-events: none;
+  }
+
+  .terminal-field-cursor {
+    display: inline-flex;
+    opacity: 0.9;
+  }
+
+  .terminal-launch {
+    letter-spacing: 0.22em;
+    position: relative;
+    isolation: isolate;
+  }
+
+  .terminal-launch::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, transparent 30%, hsl(0 0% 100% / 0.12) 50%, transparent 70%);
+    transform: translateX(-120%);
+    transition: transform 520ms ease;
+    mix-blend-mode: screen;
+  }
+
+  .terminal-launch:hover::before {
+    transform: translateX(120%);
+  }
+
+  .terminal-launch:hover {
+    transform: translateY(-1px);
+    filter: saturate(1.05);
+  }
+
+  .terminal-log-panel {
+    border-color: hsl(var(--primary) / 0.24);
+    background: linear-gradient(180deg, hsl(var(--background) / 0.5), hsl(var(--card) / 0.88));
+  }
+
+  .terminal-log-line {
+    opacity: 0;
+    animation: terminal-log-enter 280ms ease forwards;
+  }
+
+  .terminal-coord {
+    position: absolute;
+    font-family: 'JetBrains Mono', 'Space Mono', ui-monospace, monospace;
+    font-size: 9px;
+    letter-spacing: 0.35em;
+    color: hsl(var(--primary) / 0.22);
+  }
+
+  .terminal-coord-left {
+    top: 13%;
+    left: 8%;
+  }
+
+  .terminal-coord-right {
+    top: 18%;
+    right: 8%;
+    text-align: right;
+  }
+
+  .terminal-coord-bottom {
+    bottom: 14%;
+    left: 11%;
+  }
+
+  .terminal-channels {
+    background: linear-gradient(180deg, hsl(var(--hud-glass)), hsl(var(--card) / 0.82));
+  }
+
+  .terminal-direct-lines {
+    display: grid;
+    gap: 0.55rem;
+    line-height: 1.6;
+  }
+
+  .terminal-direct-divider {
+    color: hsl(var(--primary) / 0.42);
+    letter-spacing: 0.18em;
+  }
+
+  .terminal-link {
+    position: relative;
+    text-decoration: none;
+    transition: color 180ms ease, text-shadow 180ms ease, transform 180ms ease;
+  }
+
+  .terminal-link:hover {
+    text-shadow: 0 0 12px hsl(var(--primary) / 0.35);
+    transform: translateX(1px);
+  }
+
+  .terminal-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -2px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, hsl(var(--primary) / 0.55), transparent);
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 200ms ease;
+  }
+
+  .terminal-link:hover::after {
+    transform: scaleX(1);
+  }
+
+  @keyframes terminal-drift {
+    0% { transform: translate3d(0, 0, 0) scale(1); }
+    100% { transform: translate3d(1.5%, -1%, 0) scale(1.03); }
+  }
+
+  @keyframes terminal-pulse {
+    0% { opacity: 0.25; }
+    100% { opacity: 0.7; }
+  }
+
+  @keyframes terminal-float {
+    0% { background-position: 0 0; }
+    100% { background-position: 240px 240px; }
+  }
+
+  @keyframes terminal-sheen {
+    0% { transform: translateX(-75%); }
+    50% { transform: translateX(20%); }
+    100% { transform: translateX(75%); }
+  }
+
+  @keyframes terminal-buffer-scan {
+    0% { transform: translateY(-100%); opacity: 0; }
+    15% { opacity: 1; }
+    50% { opacity: 0.9; }
+    100% { transform: translateY(100%); opacity: 0; }
+  }
+
+  @keyframes terminal-log-enter {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes terminal-noise-shift {
+    0% { transform: translate3d(0, 0, 0); }
+    50% { transform: translate3d(1px, -1px, 0); }
+    100% { transform: translate3d(-1px, 1px, 0); }
+  }
 }
 
 @layer utilities {
